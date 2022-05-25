@@ -57,29 +57,7 @@ exports.getOneSauce = (req, res, next) => {
   );
 };
 
-// exports.modifySauce = (req, res, next) => {
-//   const sauceObject = new Sauce({
-//     _id: req.params.id,//modif underscore de l'_id
-//     title: req.body.title,
-//     description: req.body.description,
-//     imageUrl: req.body.imageUrl,
-//     price: req.body.price,
-//     userId: req.body.userId
-//   });
-//   Sauce.updateOne({_id: req.params.id}, {...sauceObject,  _id: req.params.id }).then(
-//     () => {
-//       res.status(201).json({
-//         message: 'sauce updated successfully!'
-//       });
-//     }
-//   ).catch(
-//     (error) => {
-//       res.status(400).json({
-//         error: error
-//       });
-//     }
-//   );
-// };
+
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ?
   { 

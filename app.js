@@ -2,8 +2,8 @@
 const express = require('express');
 // const bodyParser=require('body-parser');
 require('dotenv').config();
-process.env.ACCESS_TOKEN_SECRET
-console.log('secret is', `${process.env.TOKEN_KEY}`)
+
+
 const mongoose = require('mongoose');
 const path = require('path');//donne acces au chemin du système de fichier
 const sauceRoutes = require('./routes/sauce');
