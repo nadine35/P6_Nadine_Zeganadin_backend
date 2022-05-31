@@ -7,15 +7,16 @@ const { json } = require('express/lib/response');
 //ajouter une sauce : POST
 exports.createSauce = (req, res, next) => {
   //extraire l'objet json de sauce
-const sauceObject = JSON.parse(req.body.sauce);//données entrante sous la forme form-data json.parse()
-  //transforme des chaines de caractères en javascript
-delete sauceObject._id;//pour être sûr qu'il n'y a rien
+const sauceObject = JSON.parse(req.body.sauce);//Stocker dans une constante infos sauce envoyées 
+//par le frontend & transformées en objet js
+delete sauceObject._id;//pour être sûr qu'il n'y a pas d'id générée par le frontend
  console.log(sauceObject)
   
 
 const sauce = new Sauce({
     ...sauceObject,
     //recup segment url où se trouve notre sauce
+    // raccourci copie champs dans le corps de la requête(nom, description, etc)
     
     //host racine du server ici localhost 3000, protocol http
     imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -59,12 +60,12 @@ exports.getOneSauce = (req, res, next) => {
 
 
 exports.modifySauce = (req, res, next) => {
-  const sauceObject = req.file ?
+  const sauceObject = req.file ?// Si req file existe (nouvelle image)
   { 
     ...JSON.parse(req.body.sauce),
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
    } : { ...req.body };
-  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })//remplace la nouvelle sauce
     .then(() => res.status(202).json({ message: 'Objet modifié !' }))
     .catch(error => res.status(400).json({ error }));
 };
@@ -74,8 +75,8 @@ exports.modifySauce = (req, res, next) => {
           Sauce.findOne({ _id: req.params.id })//recherche de l'id de la sauce
             .then(sauce => {
               const filename = sauce.imageUrl.split('/images/')[1];
-              fs.unlink(`images/${filename}`, () => {
-                Sauce.deleteOne({ _id: req.params.id })
+              fs.unlink(`images/${filename}`, () => {//quel fichier est à supprimer
+                Sauce.deleteOne({ _id: req.params.id })// faire appel au callback pour supprimer la sauce
                   .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
                   .catch(error => res.status(400).json({ error }));
               });
@@ -96,45 +97,6 @@ res.status(200).json(sauces)
 }
 ).catch(error => res.status(500).json({ error: 'sauce non trouvée' }))
 }
-
-// exports.userLikeSauces = (req, res, next) => {
-//   Sauce.findOne({ _id: req.params.id })
-//       .then((sauces) => {
-//           if (req.body.like === -1) {
-//               if (sauces.usersDisliked.includes(req.body.userId)) { }
-//               else {
-//                   sauces.dislikes++
-//                   sauces.usersDisliked.push(req.body.userId)
-//                   sauces.save()//la méthode save renvoie une promise, enregistre une sauce
-//               }
-//           }
-//           else if (req.body.like === 1) {
-//               if (sauces.usersLiked.includes(req.body.userId)) { }
-//               else {
-//                   sauces.likes++
-//                   sauces.usersLiked.push(req.body.userId)
-//                   sauces.save()
-//               }
-//           }
-//           else if (req.body.like === 0) {
-//               if (sauces.usersDisliked.includes(req.body.userId)) {
-//                   sauces.usersDisliked.splice(sauces.usersDisliked.indexOf(req.body.userId), 1)
-//                   sauces.dislikes--
-//               }
-//               else if (sauces.usersLiked.includes(req.body.userId)) {
-//                   sauces.usersLiked.splice(sauces.usersLiked.indexOf(req.body.userId), 1)
-//                   sauces.likes--
-//               }
-//               sauces.save()
-//           }
-//           else {
-//               res.status(400).json({ error: 'Erreur!' })
-//               return
-//           }
-//           res.status(200).json(sauces)
-//       })
-//       .catch((error) => res.status(404).json({ error: error }))
-// }
 
 
 

@@ -5,7 +5,7 @@ const sauceCtrl = require('../controllers/sauces');
 const multer = require('../middleware/multer-config')
 
 //Création des différentes routes de l'API
-router.post('/', auth, multer, sauceCtrl.createSauce);//on créé un nouvel obje : on a 1 fichier image inclus avec
+router.post('/', auth, multer, sauceCtrl.createSauce);//on créé un nouvel objet : on a 1 fichier image inclus avec
 //la requête
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);
 router.delete('/:id', auth, sauceCtrl.deleteSauce);

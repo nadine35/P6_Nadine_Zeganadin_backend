@@ -1,14 +1,14 @@
 // app.js gère ttes les requêtes envoyées à notre server permet de faire fonctionner l'appli
 const express = require('express');
 // const bodyParser=require('body-parser');
-require('dotenv').config();
+require('dotenv').config();//config du fichier .env
 
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');//bdd mongo
 const path = require('path');//donne acces au chemin du système de fichier
-const sauceRoutes = require('./routes/sauce');
-const userRoutes = require('./routes/user');
-const Sauce = require('./models/Sauce');
+const sauceRoutes = require('./routes/sauce');//accès chemin de la route sauce
+const userRoutes = require('./routes/user');//accès chemin de la route user
+const Sauce = require('./models/Sauce');//accès chemin du model sauce
 
 
 

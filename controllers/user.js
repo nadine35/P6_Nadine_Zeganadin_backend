@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User= require('../models/User')
+const bcrypt = require('bcrypt');// hashage mdp
+const jwt = require('jsonwebtoken');// access token (jeton d’accès) 
+//qui permet un échange sécurisé de donnée entre deux parties.
+const User= require('../models/User')// accès au chemin du model user
 
 
 exports.signup = (req, res, next) => {
